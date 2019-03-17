@@ -2,26 +2,25 @@
   "name": "ethereumjs-vm",
   "version": "2.6.0",
   "description": "An Ethereum VM implementation",
-  "main": "dist/index.js",
+  "main": "lib/index.js",
   "files": [
-    "dist"
+    "lib"
   ],
   "scripts": {
     "coverage": "nyc npm run coverageTests && nyc report --reporter=text-lcov > .nyc_output/lcov.info",
     "coverageTests": "tape ./tests/api/*.js ./tests/tester.js -s",
     "coveralls": "npm run coverage && if [ -n \"$COVERALLS_REPO_TOKEN\" ]; then coveralls <.nyc_output/lcov.info; fi",
     "testVM": "node ./tests/tester -v",
-    "testStateByzantium": "npm run build:dist && node ./tests/tester -s --fork='Byzantium' --dist",
-    "testStateConstantinople": "npm run build:dist && node ./tests/tester -s --fork='Constantinople' --dist",
-    "testStatePetersburg": "npm run build:dist && node ./tests/tester -s --fork='Petersburg' --dist",
-    "testBuildIntegrity": "npm run build:dist && node ./tests/tester -s --dist --test='stackOverflow'",
-    "testBlockchain": "npm run build:dist && node --stack-size=1500 ./tests/tester -b --fork='Constantinople' --dist --excludeDir='GeneralStateTests'",
-    "testBlockchainGeneralStateTests": "npm run build:dist && node --stack-size=1500 ./tests/tester -b --dist --dir='GeneralStateTests'",
+    "testStateByzantium": "node ./tests/tester -s --fork='Byzantium'",
+    "testStateConstantinople": "node ./tests/tester -s --fork='Constantinople'",
+    "testStatePetersburg": "node ./tests/tester -s --fork='Petersburg'",
+    "testBuildIntegrity": "node ./tests/tester -s --test='stackOverflow'",
+    "testBlockchain": "node --stack-size=1500 ./tests/tester -b --fork='Constantinople' --excludeDir='GeneralStateTests'",
+    "testBlockchainGeneralStateTests": "node --stack-size=1500 ./tests/tester -b --dir='GeneralStateTests'",
     "testAPI": "tape ./tests/api/*.js",
     "test": "echo \"[INFO] Generic test cmd not used. See package.json for more specific test run cmds.\"",
     "lint": "standard",
-    "prepublishOnly": "npm run lint && npm run build:dist && npm run testBuildIntegrity",
-    "build:dist": "babel lib/ -d dist/",
+    "prepublishOnly": "npm run lint && npm run testBuildIntegrity",
     "build:docs": "documentation build ./lib/index.js ./lib/runBlockchain.js ./lib/runBlock.js ./lib/runTx.js ./lib/runCode.js ./lib/runCall.js ./lib/metaVM.js --format md --shallow > ./docs/index.md",
     "formatTest": "node ./scripts/formatTest"
   },
@@ -48,10 +47,6 @@
     "safe-buffer": "^5.1.1"
   },
   "devDependencies": {
-    "@babel/cli": "^7.2.3",
-    "@babel/core": "^7.2.2",
-    "@babel/polyfill": "^7.2.5",
-    "@babel/preset-env": "^7.2.3",
     "coveralls": "^3.0.0",
     "documentation": "^8.1.2",
     "ethereumjs-blockchain": "^3.4.0",
